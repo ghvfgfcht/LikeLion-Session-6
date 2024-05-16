@@ -2,6 +2,7 @@ package com.example.account.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 public class MemberRequestDto {
@@ -27,7 +28,7 @@ public class MemberRequestDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class loginRequestDto{
-        @NotBlank(message = "로그인 아이디를 입력해주세요.")
+        @NotNull(message = "로그인 아이디를 입력해주세요.")
         private String userId;
 
         @NotBlank(message = "비밀번호를 입력해주세요.")
