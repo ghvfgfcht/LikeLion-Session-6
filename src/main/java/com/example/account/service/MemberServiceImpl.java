@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -19,9 +21,9 @@ public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
 
     // 회원가입
-    public ResponseEntity<CustomApiResponse<?>> signUp(MemberRequestDto member) {
+    public ResponseEntity<CustomApiResponse<?>> signUp(MemberRequestDto.signUpRequestDto member) {
         Members newMemberInfo = Members.builder()
-                .user_id(member.getUserId())
+                .userId(member.getUserId())
                 .password(member.getPassword())
                 .email(member.getEmail())
                 .build();
@@ -36,6 +38,21 @@ public class MemberServiceImpl implements MemberService{
                 .build();
 
         CustomApiResponse<MemberResponseDto.signUpSuccessDto> response = CustomApiResponse.createSuccess(HttpStatus.OK.value(), result, "회원가입이 완료되었습니다.");
+
+        return ResponseEntity.ok(response);
+    }
+
+    // 로그인
+    @Override
+    public ResponseEntity<CustomApiResponse<?>> login(MemberRequestDto.loginRequestDto member) {
+
+        Optional<Members> loginResult = memberRepository.findByUserId(member.getUserId());
+
+        if(loginResult.isEmpty()){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        CustomApiResponse<?> response = CustomApiResponse.createSuccess(HttpStatus.OK.value(), null, "로그인에 성공하였습니다!");
 
         return ResponseEntity.ok(response);
     }
