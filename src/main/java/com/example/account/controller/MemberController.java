@@ -6,10 +6,7 @@ import com.example.account.util.response.CustomApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,5 +29,13 @@ public class MemberController {
         ResponseEntity<CustomApiResponse<?>> loginResponse = memberService.login(member);
 
         return loginResponse;
+    }
+
+    // Withdrawal Member
+    @DeleteMapping("withdraw/{userId}")
+    public ResponseEntity<CustomApiResponse<?>> withdraw(@Valid @PathVariable Long userId) {
+        ResponseEntity<CustomApiResponse<?>> withdrawMember = memberService.withdraw(userId);
+
+        return withdrawMember;
     }
 }
