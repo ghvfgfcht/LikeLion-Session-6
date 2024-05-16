@@ -56,4 +56,18 @@ public class MemberServiceImpl implements MemberService{
 
         return ResponseEntity.ok(response);
     }
+
+    // 회원 탈퇴
+    @Override
+    public ResponseEntity<CustomApiResponse<?>> withdraw(Long memberId) {
+        memberRepository.deleteById(memberId);
+
+        if(memberRepository.findById(memberId).isPresent()){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
+        CustomApiResponse<?> response = CustomApiResponse.createSuccess(HttpStatus.OK.value(), null, "회원 탈퇴에 성공하였습니다.");
+
+        return ResponseEntity.ok(response);
+    }
 }

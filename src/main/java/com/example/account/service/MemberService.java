@@ -9,4 +9,6 @@ public interface MemberService {
     ResponseEntity<CustomApiResponse<?>> signUp(MemberRequestDto.signUpRequestDto member);
 
     ResponseEntity<CustomApiResponse<?>> login(MemberRequestDto.loginRequestDto member);
+
+    ResponseEntity<CustomApiResponse<?>> withdraw(Long memberId);
 }
