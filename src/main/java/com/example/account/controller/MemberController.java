@@ -18,10 +18,19 @@ public class MemberController {
 
     private final MemberServiceImpl memberService;
 
+    // SignUp
     @PostMapping("/sign-up")
-    public ResponseEntity<CustomApiResponse<?>> signUp(@Valid @RequestBody MemberRequestDto member) {
+    public ResponseEntity<CustomApiResponse<?>> signUp(@Valid @RequestBody MemberRequestDto.signUpRequestDto member) {
         ResponseEntity<CustomApiResponse<?>> signUpResponse = memberService.signUp(member);
 
         return signUpResponse;
+    }
+
+    // Login
+    @PostMapping("login")
+    public ResponseEntity<CustomApiResponse<?>> login(@Valid @RequestBody MemberRequestDto.loginRequestDto member) {
+        ResponseEntity<CustomApiResponse<?>> loginResponse = memberService.login(member);
+
+        return loginResponse;
     }
 }
