@@ -17,7 +17,7 @@ public class MemberController {
 
     // SignUp
     @PostMapping("/sign-up")
-    public ResponseEntity<CustomApiResponse<?>> signUp(@Valid @RequestBody MemberRequestDto.signUpRequestDto member) {
+    public ResponseEntity<CustomApiResponse<?>> signUp(@Valid @RequestBody MemberRequestDto.SignUpRequestDto member) {
         ResponseEntity<CustomApiResponse<?>> signUpResponse = memberService.signUp(member);
 
         return signUpResponse;
@@ -25,7 +25,7 @@ public class MemberController {
 
     // Login
     @PostMapping("login")
-    public ResponseEntity<CustomApiResponse<?>> login(@Valid @RequestBody MemberRequestDto.loginRequestDto member) {
+    public ResponseEntity<CustomApiResponse<?>> login(@Valid @RequestBody MemberRequestDto.LoginRequestDto member) {
         ResponseEntity<CustomApiResponse<?>> loginResponse = memberService.login(member);
 
         return loginResponse;
@@ -33,7 +33,7 @@ public class MemberController {
 
     // Withdrawal Member
     @DeleteMapping("withdraw/{userId}")
-    public ResponseEntity<CustomApiResponse<?>> withdraw(@Valid @PathVariable Long userId) {
+    public ResponseEntity<CustomApiResponse<?>> withdraw(@Valid @PathVariable String userId) {
         ResponseEntity<CustomApiResponse<?>> withdrawMember = memberService.withdraw(userId);
 
         return withdrawMember;
