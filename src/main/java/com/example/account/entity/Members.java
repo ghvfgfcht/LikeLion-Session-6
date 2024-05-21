@@ -27,4 +27,5 @@ public class Members extends BaseEntity {
 
     private String email;
 
+    private String phone;
 }

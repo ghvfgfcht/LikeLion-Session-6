@@ -1,7 +1,6 @@
 package com.example.account.service;
 
 import com.example.account.dto.MemberRequestDto;
-import com.example.account.dto.MemberResponseDto;
 import com.example.account.entity.Members;
 import com.example.account.repository.MemberRepository;
 import com.example.account.util.response.CustomApiResponse;
@@ -11,8 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -21,11 +18,12 @@ public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
 
     // 회원가입
-    public ResponseEntity<CustomApiResponse<?>> signUp(MemberRequestDto.signUpRequestDto member) {
+    public ResponseEntity<CustomApiResponse<?>> signUp(MemberRequestDto.SignUpRequestDto member) {
         Members newMemberInfo = Members.builder()
                 .userId(member.getUserId())
                 .password(member.getPassword())
                 .email(member.getEmail())
+                .phone(member.getPhone())
                 .build();
 
         memberRepository.save(newMemberInfo);
@@ -36,19 +34,14 @@ public class MemberServiceImpl implements MemberService{
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(fail);
         }
 
-        MemberResponseDto.signUpSuccessDto result = MemberResponseDto.signUpSuccessDto.builder()
-                .member_id(newMemberInfo.getId())
-                .created_at(newMemberInfo.getCreatedAt())
-                .build();
-
-        CustomApiResponse<MemberResponseDto.signUpSuccessDto> response = CustomApiResponse.createSuccess(HttpStatus.OK.value(), result, "회원가입이 완료되었습니다.");
+        CustomApiResponse<?> response = CustomApiResponse.createSuccess(HttpStatus.OK.value(), null, "회원가입이 완료되었습니다.");
 
         return ResponseEntity.ok(response);
     }
 
     // 로그인
     @Override
-    public ResponseEntity<CustomApiResponse<?>> login(MemberRequestDto.loginRequestDto member) {
+    public ResponseEntity<CustomApiResponse<?>> login(MemberRequestDto.LoginRequestDto member) {
 
         // 존재하지 않는 회원일 경우
         if(memberRepository.findByUserId(member.getUserId()).isEmpty()){
@@ -71,10 +64,10 @@ public class MemberServiceImpl implements MemberService{
 
     // 회원 탈퇴
     @Override
-    public ResponseEntity<CustomApiResponse<?>> withdraw(Long memberId) {
-        memberRepository.deleteById(memberId);
+    public ResponseEntity<CustomApiResponse<?>> withdraw(String memberId) {
+        memberRepository.deleteById((memberRepository.findByUserId(memberId).get()).getId());
 
-        if(memberRepository.findById(memberId).isPresent()){
+        if(memberRepository.findByUserId(memberId).isPresent()){
             CustomApiResponse<?> fail = CustomApiResponse.createFailWithoutData(HttpStatus.INTERNAL_SERVER_ERROR.value(), "회원 탈퇴에 실패하였습니다.");
 
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(fail);

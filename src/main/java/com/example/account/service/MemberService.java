@@ -6,9 +6,9 @@ import org.springframework.http.ResponseEntity;
 
 public interface MemberService {
 
-    ResponseEntity<CustomApiResponse<?>> signUp(MemberRequestDto.signUpRequestDto member);
+    ResponseEntity<CustomApiResponse<?>> signUp(MemberRequestDto.SignUpRequestDto member);
 
-    ResponseEntity<CustomApiResponse<?>> login(MemberRequestDto.loginRequestDto member);
+    ResponseEntity<CustomApiResponse<?>> login(MemberRequestDto.LoginRequestDto member);
 
-    ResponseEntity<CustomApiResponse<?>> withdraw(Long memberId);
+    ResponseEntity<CustomApiResponse<?>> withdraw(String memberId);
 }
